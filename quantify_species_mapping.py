@@ -34,7 +34,7 @@ import pysam
 import sys
 
 def read_chromosomes(file):
-	# Turns supplied files into a dictionary of lists of features
+	# Turns supplied file into a list of features
 	chromosomes_list = []
 	with open(file, "r") as file:
 		for line in file.readlines():

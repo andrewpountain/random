@@ -5,7 +5,11 @@
 
 quantify_species_mapping.py
 
-Quantifies mapping numbers to each of a given number of sets of genome features
+Quantifies mapping numbers to each of a given number of sets of genome features.
+
+This is when, for example, you have mixed species data (e.g. dual host-pathogen RNA-seq),
+and you have aligned all the reads to a concatenated, multi-species genome. This will
+give you stats on the number of reads aligned to each species in there.
 
 Argument 1 is a comma-separated list of files, each of which should have a newline-
 separated list of chromosomes (N.B. if a chromosome appears in multiple files, it will
@@ -30,6 +34,7 @@ import pysam
 import sys
 
 def read_chromosomes(file):
+	# Turns supplied files into a dictionary of lists of features
 	chromosomes_list = []
 	with open(file, "r") as file:
 		for line in file.readlines():
@@ -47,7 +52,7 @@ header = ["file", "total", "paired", "unmapped", "properly_paired"] + chromosome
 print("\t".join(header))
 
 for bam_file in bam_files:
-	bam = pysam.AlignmentFile(bam_file, "rb")
+	bam = pysam.AlignmentFile(bam_file, "rb") # Note that right now this only works for bam-compressed alignment files, but easily modified for e.g. sam and cram
 	total = 0
 	paired = 0
 	properly_paired = 0
